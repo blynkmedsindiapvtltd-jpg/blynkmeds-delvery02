@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLYNKMEDS - Share Location</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f4f7fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+padding:20px;
+}
+
+.card{
+background:#fff;
+padding:30px;
+border-radius:20px;
+max-width:400px;
+width:100%;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+color:#00a859;
+margin-bottom:10px;
+}
+
+.subtitle{
+color:#555;
+margin-bottom:25px;
+}
+
+button{
+background:#25D366;
+color:#fff;
+border:none;
+padding:18px;
+font-size:20px;
+border-radius:12px;
+width:100%;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+
+button:hover{
+background:#1ebe5d;
+}
+
+.secure{
+margin-top:20px;
+font-size:14px;
+color:#666;
+}
+
+.loader{
+display:none;
+margin-top:25px;
+}
+
+.spinner{
+width:45px;
+height:45px;
+border:5px solid #ddd;
+border-top:5px solid #25D366;
+border-radius:50%;
+margin:auto;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="logo">🟢 BLYNKMEDS</div>
+
+<p class="subtitle">
+Tap below to securely share your current location.
+</p>
+
+<button onclick="shareLocation()">
+📍 Share My Current Location
+</button>
+
+<div class="loader" id="loader">
+<div class="spinner"></div>
+<p style="margin-top:15px;">Getting your location...</p>
+</div>
+
+<div class="secure">
+🔒 Your location is used only for medicine delivery.
+</div>
+
+</div>
+
+<script>
+
+function shareLocation(){
+
+document.getElementById("loader").style.display="block";
+
+if(!navigator.geolocation){
+alert("Geolocation not supported.");
+return;
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(position){
+
+let lat=position.coords.latitude;
+let lon=position.coords.longitude;
+
+let msg=`Hello BLYNKMEDS!
+
+My Current Location:
+
+https://maps.google.com/?q=${lat},${lon}`;
+
+let url=`https://wa.me/918434663906?text=${encodeURIComponent(msg)}`;
+
+window.location.href=url;
+
+},
+
+function(){
+
+alert("Location permission denied.");
+
+},
+
+{
+
+enableHighAccuracy:true,
+timeout:10000
+
+}
+
+);
+
+}
+
+</script>
+
+</body>
+</html>
